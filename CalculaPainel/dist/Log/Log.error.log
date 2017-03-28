@@ -1,0 +1,8 @@
+20/03/2017 17:13:59 - ERROR - java.io.FileNotFoundException: C:\Painel\Painel.HTML (Acesso negado)
+	at java.io.FileOutputStream.open0(Native Method)
+	at java.io.FileOutputStream.open(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileOutputStream.<init>(Unknown Source)
+	at java.io.FileWriter.<init>(Unknown Source)
+	at br.zul.zwork2.io.ZTxtFile.writeAll(ZTxtFile.java:90)
+	at calculapainel.CalculaPainel.main(CalculaPainel.java:139)
