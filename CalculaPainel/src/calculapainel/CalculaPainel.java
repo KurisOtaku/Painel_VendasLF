@@ -21,8 +21,8 @@ public class CalculaPainel {
         String conteudoHtml = new ZTxtFile("C:\\Users\\jeferson.oliveira\\Documents\\NetBeansProjects\\PainelDeVendas\\public_html\\Modelo.HTML").readAll();
 //        ZHtml html = new ZHtml(conteudoHtml);
         String setores[] = {"404", "501", "502", "503", "504", "505", "611", "612", "613", "614", "615", "616"};
-
-        while (1 > 0) {
+        int timeLimit = 0;
+        while (timeLimit < 2530) {
 
             String copiaHtml = conteudoHtml;
             String diretorio = "P:\\Descarga\\C0";
@@ -109,7 +109,7 @@ public class CalculaPainel {
                         } else {
                             copiaHtml = copiaHtml.replace("$_fora" + setores[i], "green");
                         }
-//Resultado
+//Resultado em Reais
                         ZString conteudo1;
                         conteudo1 = conteudoProcessado;
                         String resultadoFinal = "";
@@ -119,16 +119,35 @@ public class CalculaPainel {
                             float valor = conteudo1.toLeft("</tr>").trim().replace(".", "").replace(",", ".").replace(" ", "").asFloat();
                             resultado += valor;
                             resultadoFinal = String.format("%,3.2f", resultado);
-                           
+
                         }
-                        copiaHtml = copiaHtml.replace("$tt" + setores[i], "R$ "+String.valueOf(resultadoFinal));
+                        copiaHtml = copiaHtml.replace("$tt" + setores[i], "R$ " + String.valueOf(resultadoFinal));
                         if (resultado < 1) {
                             copiaHtml = copiaHtml.replace("$_tt" + setores[i], "black");
                         } else {
                             copiaHtml = copiaHtml.replace("$_tt" + setores[i], "green");
                         }
-// ----> A continuar  <-----                      System.out.println("Setor " + setores[i] + ", resultado:" + resultadoFinal);
+//Resultado em KG
+                        ZString conteudo2;
+                        conteudo2 = conteudoProcessado;
+                        String resultadoFinal1 = "";
+                        float resultado2 = 0;
+                        while (conteudo1.contains("(Kg):")) {
+                            conteudo1 = conteudo1.fromLeft("(Kg):");
+                            float valor = conteudo1.toLeft("      </font>").trim().replace(".", "").replace(",", ".").replace(" ", "").asFloat();
+                            resultado2 += valor;
+                            resultadoFinal1 = String.format("%,3.2f", resultado2);
 
+                        }
+//                        copiaHtml = copiaHtml.replace("$tt" + setores[i], "R$ " + String.valueOf(resultadoFinal));
+//                        if (resultado < 1) {
+//                            copiaHtml = copiaHtml.replace("$_tt" + setores[i], "black");
+//                        } else {
+//                            copiaHtml = copiaHtml.replace("$_tt" + setores[i], "green");
+//                        }
+                        
+//                        System.out.println(setores[i]+" KG: " + resultadoFinal1);
+                        
                     } else {
 // SE NÃO
                         copiaHtml = copiaHtml.replace("$pass" + setores[i], "&#128078");
@@ -165,7 +184,7 @@ public class CalculaPainel {
                         int fora = 0;
                         copiaHtml = copiaHtml.replace("$fora" + setores[i], String.valueOf(fora));
                         copiaHtml = copiaHtml.replace("$_fora" + setores[i], "black");
-                        
+
                         int resultadoFinal = 0;
                         copiaHtml = copiaHtml.replace("$tt" + setores[i], String.valueOf(fora));
                         copiaHtml = copiaHtml.replace("$_tt" + setores[i], "black");
@@ -173,7 +192,7 @@ public class CalculaPainel {
                         //Status
 //                    copiaHtml = copiaHtml.replace("$_status" + setores[i], "black");
                     }
-
+                    
                     i++;
                 }
 
@@ -183,8 +202,10 @@ public class CalculaPainel {
             new ZTxtFile("C:\\Painel\\Painel.HTML").writeAll(copiaHtml);
             ZThread.sleep(5000);
 //            System.out.print(" . ");
-
+        timeLimit++;
         }
+        System.out.println("Fim do Projeto");
+        System.out.println("");        System.out.println("");
     }
 
     public static void setValue(ZHtml html, String idTag, String novoValor) {
